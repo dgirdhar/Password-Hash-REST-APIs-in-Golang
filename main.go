@@ -19,8 +19,6 @@ import (
 2. Unit Test Cases
 3. Handle Shutdown function properly
 4. Currently logging is maitained at same level, later we will make it to different levels based on the need.
-5. Handle stats variable properly. Currently it contains a uint64 to nani seconds data, this need attention
-6. Calculating hash after 5 seconds is not yet handled, we can call setInterval kind of API.
 */
 
 /**********************************************************************************
@@ -255,7 +253,7 @@ func HandleRequests() {
 	handler.HandleFunc("/hash/", GetHashData)
 	handler.HandleFunc("/stats", Stats)
 
-	log.Fatal(server.ListenAndServeTLS("localhost.crt", "localhost.key"))
+	log.Fatal(server.ListenAndServe())
 }
 
 /**
