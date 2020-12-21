@@ -1,0 +1,64 @@
+Test Cases:
+
+TestSuite: End Points Testing
+(Make sure all end points are reachable)
+1. /hash
+2. /hash/{id}
+3. /stats
+4. /shutdown
+
+
+Test Suite 2: Positive Scenario
+
+1. Given hash API URL is available
+   when we pass password "Password"
+   then return value is "0" and API status code is 200 and body contains 1 as ID.
+
+2.  Pass 1 index in /hash/1 API and make sure we get the following value
+    ZEHhWB65gUlzdVwtDQArEyx+KVLzp/aTaRaPlBzYRIFj6vjFdqEb0Q5B8zVKCZ0vKbZPZklJz0Fd7su2A+gf7Q==
+
+3. Now call /status API and API return APIs count 1 and positive resppnse time.
+
+4. Call /shutdown API and call some other API to make sure other services are no longer responding
+
+
+Test Suite 3: Hash API
+
+1. Pass known password and check the sequence number returned by the API
+2. Make sure sequence number is getting incremented with every call
+3. Pass zero length password and make sure API returns 400 bad request error
+4. Pass invalid password format from password="Dhiraj" to pass="Dhiraj" and make sure API returns 400 Bad request error
+5. Pass huge data as password say 2KB and make sure API is processing it properly.
+6. Test boundary conditions, at this moment we are not sure about the upper boundaries of the password, so clarify it.
+7. Pass password with some special characters and make sure API can handle this properly, API should return 200 ok.
+
+
+Test Suite 4: /hash/{id}
+
+1. Call /hash api with known password and call /hash/{id} API with given ID and make sure API return valid hash value.
+2. Sha512 test: Validate the length of SHA512 hash value.
+3. Call /hash/{id} with -ve, 0, invalid positive values, boundary conditions of integer etc. to make sure API is returning valid results.
+4. id is part of URL, try to send some big value and make sure server is responding properly, example 400 bad request
+
+Test Suite 5: /stats API
+1. Call Hash API and make sure stats API is returning valid APIs count.
+2. Call stats API multiple times without calling hash API and make sure returned value is not getting changed.
+3. Call this API without calling hash API and make sure it returns 0 value and 0 as performance number, this may cause issues like divide by zero etc.
+4. Call hash API multiple times and make sure API count returned by this API is correct and performance number is greater than 0.
+
+Test Suite 6: Shutdown API
+1. Call shutdown API and make sure other APIs are not reachable after that
+2. Pass some data in body and make sure API is behaving as expected i.e. Service is down after that
+
+
+Test Suite 7: Misc.
+1. Make sure API is not returning stack trace in any scenario.
+2. Test these APIs with SSL
+
+
+Test Suite: Multithreading
+1. Call hash API with 2 threads and make sure API is returning back with valid IDs and /hash/{id} API returns valid hash values.
+2. Call hash API with multiple threads 100 times, and make sure ID returned is unique
+3. Call hash API with multiple threads 100 times, and make sure total count is valid
+4. Call hash and hash/{id} APIs in two different threads and make sure server is responding properly, intent is to make sure there is no dead lock.
+
