@@ -16,6 +16,5 @@ Note: This service runs on 7777 port. In this version it is not taking port numb
 Run Instructions: Run following command to run this service in localhost
 go run main.go
 
-Note: Make sure .crt and .key files are present in same folder as main.go file.
 
 TODOs are mentioned in the files.
